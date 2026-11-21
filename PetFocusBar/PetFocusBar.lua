@@ -18,7 +18,6 @@ background:SetColorTexture(0.08, 0.08, 0.08, 0.9)
 
 local label = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 label:SetPoint("CENTER")
-label:SetText("Pet Focus")
 
 local function SavePosition(self)
     self:StopMovingOrSizing()
@@ -43,8 +42,11 @@ local function UpdateBar()
         return
     end
 
-    bar:SetMinMaxValues(0, UnitPowerMax("pet", Enum.PowerType.Focus))
-    bar:SetValue(UnitPower("pet", Enum.PowerType.Focus))
+    local focus = UnitPower("pet", Enum.PowerType.Focus)
+    local maxFocus = UnitPowerMax("pet", Enum.PowerType.Focus)
+    bar:SetMinMaxValues(0, maxFocus)
+    bar:SetValue(focus)
+    label:SetFormattedText("Pet Focus  %d / %d", focus, maxFocus)
     anchor:Show()
 end
 
