@@ -1,0 +1,7 @@
+## Interface: 16001
+## Title: Pet Focus Bar
+## Notes: A movable focus bar for your hunter pet.
+## Version: 1.0.0
+## SavedVariablesPerCharacter: PetFocusBarPosition
+
+PetFocusBar.lua
