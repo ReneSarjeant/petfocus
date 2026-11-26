@@ -32,8 +32,8 @@ local biteLabel = biteBar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSma
 biteLabel:SetPoint("CENTER")
 
 local BITE_COST, CLAW_COST = 35, 25
--- Conservative allowance: 10 focus per full two-second interval.
--- Do not count bonus regeneration from talents or crits.
+-- Bestial Discipline 2/2: +20% focus regeneration (12 per 2 seconds).
+-- Keep a small timing buffer; do not assume random bonus focus.
 local function UpdateBite()
     if not UnitExists("pet") then return end
     local slot
@@ -55,7 +55,7 @@ local function UpdateBite()
         remaining = math.max(0, start + duration - GetTime())
     end
     local focus = UnitPower("pet", Enum.PowerType.Focus)
-    local regen = math.max(0, math.floor((remaining - 0.25) / 2)) * 10
+    local regen = math.max(0, math.floor((remaining - 0.25) / 2)) * 12
     local reserve = remaining <= 0 or focus < CLAW_COST or
         focus - CLAW_COST + regen < BITE_COST
     biteBar:SetValue(remaining > 0 and math.min(10, remaining) or 10)
