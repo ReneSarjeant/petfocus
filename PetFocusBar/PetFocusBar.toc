@@ -1,7 +1,7 @@
 ## Interface: 16001
 ## Title: Pet Focus Bar
 ## Notes: A movable numeric pet focus bar with independent Bite countdown.
-## Version: 1.2.0
+## Version: 1.2.1
 ## SavedVariablesPerCharacter: PetFocusBarPosition
 
 PetFocusBar.lua
