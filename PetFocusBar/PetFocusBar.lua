@@ -142,7 +142,7 @@ ticker:SetScript("OnUpdate", function(_, dt)
 end)
 local castEvents = CreateFrame("Frame")
 pcall(castEvents.RegisterUnitEvent, castEvents, "UNIT_SPELLCAST_SUCCEEDED", "pet")
-pcall(castEvents.RegisterEvent, castEvents, "COMBAT_LOG_EVENT_UNFILTERED")
+-- Forever restricts combat-log event registration; use pet spellcast and cooldown polling.
 castEvents:SetScript("OnEvent", function(_, event, ...)
     local unit, _, id = ...
     pcall(function()
@@ -151,9 +151,6 @@ castEvents:SetScript("OnEvent", function(_, event, ...)
                 if debugMode then print("PetFocusBar pet cast:", id) end
                 if IsBite(id) then StartBite() end
             end
-        elseif CombatLogGetCurrentEventInfo then
-            local _, subevent, _, sourceGUID, _, _, _, _, _, _, _, id, name = CombatLogGetCurrentEventInfo()
-            if subevent == "SPELL_CAST_SUCCESS" and sourceGUID == UnitGUID("pet") and IsBite(id, name) then StartBite() end
         end
     end)
 end)
