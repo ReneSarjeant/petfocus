@@ -106,20 +106,25 @@ local function UpdateWarning()
         -- Arithmetic probe: do not discard ordinary readable focus values.
         return value + 0
     end)
-    local safe = false
+    -- Fallback is explicitly time-based, not a focus guarantee.
+    local safe = left > 5
+    local estimated = true
     if ok then
         local success, result = pcall(function()
             local regen = math.max(0, math.floor((left - 0.25) / 2)) * 12
             return left > 1.5 and focus >= 25 and focus - 25 + regen >= 35
         end)
-        if success then safe = result end
+        if success and not (type(issecretvalue) == "function" and issecretvalue(result)) then
+            safe = result
+            estimated = false
+        end
     end
     local message
     if left <= 0 then
         message = "BITE READY"
         biteBar:SetValue(10)
     else
-        message = safe and "CLAW" or "STOP CLAW"
+        message = safe and (estimated and "CLAW? (TIME)" or "CLAW") or "STOP CLAW"
         biteBar:SetValue(left)
     end
     if safe then biteBar:SetStatusBarColor(0.12, 0.72, 0.25)
